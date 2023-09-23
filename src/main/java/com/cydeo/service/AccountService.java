@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AccountService {
 
-    Account createNewAccount(BigDecimal balance, Date createDate, AccountType accountType, Long userId);
-    List<Account> listAllAccount();
+    Account createNewAccount(BigDecimal balance, Date createDate, AccountType accountType,Long userId);
 
+    List<Account> listAllAccount();
 }
