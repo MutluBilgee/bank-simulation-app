@@ -16,10 +16,12 @@ public class AccountController {
     }
 
     @GetMapping("/index")
-    public String getIndexPage(Model model){
+    public String getIndexPage(Model model) {
 
-        model.addAttribute("accountList",accountService.listAllAccount());
+        model.addAttribute("accountList", accountService.listAllAccount());
         return "account/index";
 //templates is the root. No need to provide the path explicitly
     }
+
+
 }
