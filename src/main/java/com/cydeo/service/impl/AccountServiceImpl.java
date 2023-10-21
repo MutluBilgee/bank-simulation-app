@@ -26,8 +26,7 @@ public class AccountServiceImpl implements AccountService {
         //we need to create Account object
         Account account = Account.builder().id(UUID.randomUUID()).userId(userId)
                 .balance(balance).accountType(accountType).creationDate(createDate)
-                .accountStatus(AccountStatus.ACTIVE)
-                .build();
+                .accountStatus(AccountStatus.ACTIVE).build();
         //save into the database(repository)
         //return the object created
         return accountRepository.save(account);
@@ -36,5 +35,26 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> listAllAccount() {
         return accountRepository.findAll();
+    }
+
+    @Override
+    public void deleteAccount(UUID id) {
+        //find the account belongs the id
+        Account account = accountRepository.findById(id);
+        //set status to deleted
+        account.setAccountStatus(AccountStatus.DELETED);
+    }
+
+    @Override
+    public void activateAccount(UUID id) {
+        //find the account belongs the id
+        Account account = accountRepository.findById(id);
+        //set status to active
+        account.setAccountStatus(AccountStatus.ACTIVE);
+    }
+
+    @Override
+    public Account retrieveById(UUID id) {
+        return accountRepository.findById(id);
     }
 }
