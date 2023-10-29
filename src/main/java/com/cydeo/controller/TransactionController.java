@@ -6,11 +6,13 @@ import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,7 +45,13 @@ public class TransactionController {
     //complete the transfer and return the same page
 
     @PostMapping("/transfer")
-    public String makeTransfer(@ModelAttribute("transaction") Transaction transaction){
+    public String makeTransfer(@ModelAttribute("transaction") @Valid Transaction transaction, BindingResult bindingResult,Model model){
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("accounts",accountService.listAllAccount());
+            model.addAttribute("lastTransactions",transactionService.last10Transactions());
+            return "transaction/make-transfer";
+        }
 
         //I have UUID of  accounts but I need to provide Account object.
         //I need to find the Accounts based on the ID that I have and use as a parameter to complete makeTransfer method.
@@ -60,11 +68,19 @@ public class TransactionController {
     //transaction/{id}
     //return transaction/transactions page
     @GetMapping("/transaction/{id}")
-    public String getTransactionList(@PathVariable("id")UUID id){
+    public String getTransactionList(@PathVariable("id")UUID id,Model model){
         //print the id
         System.out.println(id);
 
+        //get the list of transactions based on id and return as a model attribute
+        //TASK- complete the method(service and repository)
+        //findTransactionListById
+        model.addAttribute("transactions",transactionService.findTransactionListById(id));
+
         return "transaction/transactions";
     }
+
+    //go to transactions.html
+    //based on size of the transactions either show "No transactions yet" or transactions table
 
 }
