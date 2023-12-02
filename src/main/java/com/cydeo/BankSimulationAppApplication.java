@@ -1,14 +1,12 @@
 package com.cydeo;
 
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
+import com.cydeo.dto.AccountDTO;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,10 +22,10 @@ public class BankSimulationAppApplication {
         TransactionService transactionService = container.getBean(TransactionService.class);
 //
 //        //create 2 accounts sender and receiver
-        Account sender = accountService.createNewAccount(BigDecimal.valueOf(70), new Date(), AccountType.CHECKING, 2L);
-        Account receiver = accountService.createNewAccount(BigDecimal.valueOf(50), new Date(), AccountType.SAVING, 3L);
-        Account receiver2 = accountService.createNewAccount(BigDecimal.valueOf(55), new Date(), AccountType.SAVING, 4L);
-        Account receiver3 = accountService.createNewAccount(BigDecimal.valueOf(60), new Date(), AccountType.SAVING, 5L);
+        AccountDTO sender = accountService.createNewAccount(BigDecimal.valueOf(70), new Date(), AccountType.CHECKING, 2L);
+        AccountDTO receiver = accountService.createNewAccount(BigDecimal.valueOf(50), new Date(), AccountType.SAVING, 3L);
+        AccountDTO receiver2 = accountService.createNewAccount(BigDecimal.valueOf(55), new Date(), AccountType.SAVING, 4L);
+        AccountDTO receiver3 = accountService.createNewAccount(BigDecimal.valueOf(60), new Date(), AccountType.SAVING, 5L);
 //
 //        accountService.listAllAccount().forEach(System.out::println);
 //

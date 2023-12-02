@@ -1,7 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
+import com.cydeo.dto.AccountDTO;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.UUID;
 
 @Controller
 public class AccountController {
@@ -39,7 +38,7 @@ public class AccountController {
     public String getCreateForm(Model model){
 
         //we need to provide empty account object
-        model.addAttribute("account", Account.builder().build());
+        model.addAttribute("account",  new AccountDTO());
         //we need to provide accountType enum info for filling the dropdown options
         model.addAttribute("accountTypes", AccountType.values());
 
@@ -51,19 +50,19 @@ public class AccountController {
     //trigger createNewAccount method, create the account based on the user input.
     //once user created return back to the index page.
     @PostMapping("/create")
-    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult,Model model){
+    public String createAccount(@Valid @ModelAttribute("account") AccountDTO accountDTO, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()){
 
             model.addAttribute("accountTypes", AccountType.values());
             return "account/create-account";
         }
-        System.out.println(account);
-        accountService.createNewAccount(account.getBalance(),new Date(),account.getAccountType(),account.getUserId());
+        System.out.println(accountDTO);
+        accountService.createNewAccount(accountDTO.getBalance(),new Date(), accountDTO.getAccountType(), accountDTO.getUserId());
         return "redirect:/index";
     }
 
     @GetMapping("/delete/{id}")
-    public String getDeleteAccount(@PathVariable("id")UUID id){
+    public String getDeleteAccount(@PathVariable("id") Long id){
 
         accountService.deleteAccount(id);
 
@@ -71,7 +70,7 @@ public class AccountController {
     }
 
     @GetMapping("/activate/{id}")
-    public String activateAccount(@PathVariable("id") UUID id){
+    public String activateAccount(@PathVariable("id") Long id){
 
         accountService.activateAccount(id);
 
