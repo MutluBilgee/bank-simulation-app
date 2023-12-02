@@ -32,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> listAllAccount() {
+
         return accountRepository.findAll();
     }
 
