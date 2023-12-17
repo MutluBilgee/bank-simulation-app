@@ -19,7 +19,6 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            //TASK
             //we need to get our own user from database. how ?
            User user = userRepository.findByUsername(username);
             //return some exception if user doesn't exist
