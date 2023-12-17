@@ -1,14 +1,16 @@
 package com.cydeo;
 
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
+import com.cydeo.dto.AccountDTO;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,10 +26,10 @@ public class BankSimulationAppApplication {
         TransactionService transactionService = container.getBean(TransactionService.class);
 //
 //        //create 2 accounts sender and receiver
-        Account sender = accountService.createNewAccount(BigDecimal.valueOf(70), new Date(), AccountType.CHECKING, 2L);
-        Account receiver = accountService.createNewAccount(BigDecimal.valueOf(50), new Date(), AccountType.SAVING, 3L);
-        Account receiver2 = accountService.createNewAccount(BigDecimal.valueOf(55), new Date(), AccountType.SAVING, 4L);
-        Account receiver3 = accountService.createNewAccount(BigDecimal.valueOf(60), new Date(), AccountType.SAVING, 5L);
+//        AccountDTO sender = accountService.createNewAccount(BigDecimal.valueOf(70), new Date(), AccountType.CHECKING, 2L);
+//        AccountDTO receiver = accountService.createNewAccount(BigDecimal.valueOf(50), new Date(), AccountType.SAVING, 3L);
+//        AccountDTO receiver2 = accountService.createNewAccount(BigDecimal.valueOf(55), new Date(), AccountType.SAVING, 4L);
+//        AccountDTO receiver3 = accountService.createNewAccount(BigDecimal.valueOf(60), new Date(), AccountType.SAVING, 5L);
 //
 //        accountService.listAllAccount().forEach(System.out::println);
 //
@@ -35,6 +37,16 @@ public class BankSimulationAppApplication {
 //        System.out.println("transactionService.findAllTransaction().get(0) = " + transactionService.findAllTransaction().get(0));
 //
 //        accountService.listAllAccount().forEach(System.out::println);
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 }
